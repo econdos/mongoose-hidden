@@ -103,6 +103,25 @@ describe('mongoose-hidden', function() {
     })
   })
 
+  describe('A model with a masked properties defined', function() {
+    it("shouldn't return those property", function(done) {
+      let User = defineModel({
+        name: String,
+        email: String,
+        password: {
+          type: String,
+          mask: true,
+        },
+      })
+      let user = new User(testUser)
+      let userJson = user.toJSON()
+      userJson.name.should.equal('Joe')
+      userJson.email.should.equal('joe@example.com')
+      userJson.password.should.equal('*******ret')
+      done()
+    })
+  })
+
   describe('A model with default hidden properties defined', function() {
     it("shouldn't return __v property", function(done) {
       let User = defineModel({
@@ -150,6 +169,30 @@ describe('mongoose-hidden', function() {
       })
     })
   })
+
+  // describe('Default mask turned off', function() {
+  //   it("shouldn't mask any properties", function(done) {
+  //     let User = defineModel(
+  //       {
+  //         name: String,
+  //         email: String,
+  //         password: {
+  //           type: String,
+  //           mask: true,
+  //         },
+  //       },
+  //       {}
+  //     )
+  //     let user = new User(testUser)
+  //     user.save(function() {
+  //       let userJson = user.toJSON()
+  //       userJson.name.should.equal('Joe')
+  //       userJson.email.should.equal('joe@example.com')
+  //       testPassword.should.equal(userJson.password)
+  //       done()
+  //     })
+  //   })
+  // })
 
   describe('Default hiding turned off for JSON only', function() {
     it("shouldn't hide any properties", function(done) {
