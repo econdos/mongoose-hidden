@@ -46,14 +46,14 @@ user.save(function() {
 })
 ```
 
-### Property params: `hide`, `hideJSON`, `hideObject`
+### Property params: `hide`, `mask`, `hideJSON`, `hideObject`
 
 A property will be hidden in all cases when `toJSON` and `toObject` is invoked if the property parameter `hide` is used. Alternatively use `hideJSON` or `hideObject` to target either of the serialization functions.
 
 ```javascript
 let UserSchema = new Schema(
   ...
-  password: { type: String, hideJSON: true }, // hidden for toJSON but not for toObject
+  password: { type: String, mask: true, hideJSON: true }, // hidden for toJSON but not for toObject. Mask for any
   ...
 )
 ```
